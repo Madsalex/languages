@@ -1,30 +1,26 @@
-<html>
-<head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+{% extends "base.html" %}
+{% block content %}
 <body background='pictures/bg.jpg' bgcolor='777788'>
 <center>
-<br><table style="background: rgba(255, 255, 255, 0.95); border-radius: 8px" width='50%' height=100 cellpadding=0>
 <tr font color='220077'>
-    <td style="padding: 0px;" colspan=0>
-        <div class="container">
-        <img src='pictures/worldmap.png' style='transform: scale(0.9)' usemap='#worldmap'>
+    <div class="container">
+        <td style="padding: 10px;">
+            <center><b><h1>Click on the origin region of your language</h1></b>
+            If you want to choose from a list of language groups, you can click <a href="/list/?criteria=all">here</a></a></center>
+    {% load static %}
+    <img src="{% static 'worldmap.png' %}" style='transform: scale(0.9); top: 50%; left: 0; right: 0; margin-top: -2%;' usemap='#worldmap' alt="Click here">
         <map name='worldmap'>
-            <area shape='rect' coords='0, 0, 433, 754' href="american.html"
+            <area shape='rect' coords='0, 0, 433, 754' href="/list/?criteria=american"
             alt="Языки стран и народов Америки">
-            <area shape='circle' coords='630, 485, 150' href='african.html'
+            <area shape='circle' coords='630, 485, 150' href='/list/?criteria=african'
             alt="Языки стран и народов Африки">
-            <area shape='circle' coords='1050, 600, 175' href='australian.html'
+            <area shape='circle' coords='1050, 600, 175' href='/list/?criteria=australian'
             alt="Языки стран и народов Австралии и Океании">
-            <area shape='poly' coords='760, 300, 1070, 220, 1100, 320, 950, 450, 870, 450' href='asian.html' alt="Азиатские языки">
-            <area shape='poly' coords='560, 310, 560, 340, 680, 340, 700, 300, 760, 300, 800, 220, 700, 170, 650, 150, 0' href='european.html' alt="Европейские языки">
-            <area shape='circle' coords='750, 390, 50' href='arabic.html' alt="Языки Ближнего востока">
-            <area shape='rect' coords='700, 50, 1150, 300' href='russian.html' alt="Русский язык">
+            <area shape='poly' coords='760, 300, 1070, 220, 1100, 320, 950, 450, 870, 450' href='/list/?criteria=asian' alt="Азиатские языки">
+            <area shape='poly' coords='560, 310, 560, 340, 680, 340, 700, 300, 760, 300, 800, 220, 700, 170, 650, 150, 0' href='/list/?criteria=european' alt="Европейские языки">
+            <area shape='circle' coords='750, 390, 50' href='/list/?criteria=arabic' alt="Языки Ближнего востока">
+            <area shape='rect' coords='700, 50, 1150, 300' href='/list/?criteria=russian' alt="Русский язык">
         </map>
         </div>
-    </div>
 </td></tr>
-</table>
-</body>
-</html>
+{% endblock %}

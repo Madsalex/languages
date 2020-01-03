@@ -5,7 +5,7 @@ from .forms import *
 
 
 def index(request):
-    news = Article.objects.filter(date__lte=timezone.now()).order_by('-date')
+    news = Article.objects.filter(date__lte=timezone.now()).order_by('-date')[:2]
     return render(request, 'index.html', {'news': news})
 
 
@@ -26,3 +26,17 @@ def create(request):
     else:
         form = CreateForm()
     return render(request, 'create_article.html', {'form': form})
+
+
+def articles(request):
+    news = Article.objects.filter(date__lte=timezone.now()).order_by('-date')
+    return render(request, 'articles.html', {'news': news})
+
+
+def map(request):
+    return render(request, 'map.html')
+
+
+def view_entries(request):
+    group = request.GET.get('criteria')
+    return render(request, 'list.html', {'entries': Article.objects.filter(language=group), 'group': group})

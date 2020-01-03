@@ -16,9 +16,9 @@ class Article(models.Model):
     text = models.TextField()
     date = models.DateTimeField(default=timezone.now)
     # language = models.ForeignKey('Language', on_delete=models.CASCADE, default='other')
-    language = models.CharField(max_length=40, default='')
+    language = models.CharField(max_length=40, default='other')
     # tags = models.TextField(default='none')
-    tags = models.TextField(default='')
+    tags = models.TextField(default='none')
 
     def publish(self):
         self.date = timezone.now()
