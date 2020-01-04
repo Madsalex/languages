@@ -15,6 +15,7 @@ def article(request, id):
 
 
 def create(request):
+    langs = Language.objects.all()
     if request.method == "POST":
         form = CreateForm(request.POST)
         if form.is_valid():
@@ -25,7 +26,7 @@ def create(request):
             return redirect('post_detail', pk=post.pk)
     else:
         form = CreateForm()
-    return render(request, 'create_article.html', {'form': form})
+    return render(request, 'create_article.html', {'form': form, 'langs': langs})
 
 
 def articles(request):

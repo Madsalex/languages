@@ -6,19 +6,22 @@ from django.utils import timezone
 
 
 class Language(models.Model):
-    # id = models.PositiveIntegerField()
-    pass
+    name = models.CharField(max_length=50)
+    group = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Article(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey('User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
     date = models.DateTimeField(default=timezone.now)
     # language = models.ForeignKey('Language', on_delete=models.CASCADE, default='other')
     language = models.CharField(max_length=40, default='other')
     # tags = models.TextField(default='none')
-    tags = models.TextField(default='none')
+    tags = models.ManyToManyField('Tag')
 
     def publish(self):
         self.date = timezone.now()
@@ -27,3 +30,18 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class User(models.Model):
+    name = models.CharField(max_length=50)
+    languages = models.ManyToManyField(Language)
+    favourite_tags = models.ManyToManyField(Tag)
+
+    def __str__(self):
+        return self.name

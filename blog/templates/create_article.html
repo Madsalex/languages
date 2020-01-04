@@ -3,6 +3,9 @@
 {% block content %}
 <td>
     <center>
+        {% for i in langs %}
+        {{ i.name }}
+        {% endfor %}
     <h1>New post</h1>
         <hr>
     <form method="POST" class="post-form">{% csrf_token %}
