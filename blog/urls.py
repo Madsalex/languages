@@ -8,4 +8,5 @@ urlpatterns = [
     path('articles/', views.articles, name='article'),
     path('map/', views.map, name='map'),
     path('list/', views.view_entries, name='entries'),
+    path('login/', views.login_view, name='login'),
 ]

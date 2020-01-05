@@ -7,4 +7,4 @@ from .models import *
 admin.site.register(Article)
 admin.site.register(Language)
 admin.site.register(Tag)
-admin.site.register(User)
+admin.site.register(Profile)

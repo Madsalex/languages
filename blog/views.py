@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.contrib.auth import authenticate, login
 from .models import *
 from .forms import *
 
@@ -41,3 +42,16 @@ def map(request):
 def view_entries(request):
     group = request.GET.get('criteria')
     return render(request, 'list.html', {'entries': Article.objects.filter(language=group), 'group': group})
+
+
+def login_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        # Redirect to a success page.
+        return render(request, 'articles.html')
+    else:
+        # Return an 'invalid login' error message.
+        return render(request, 'map.html')

@@ -1,5 +1,7 @@
-from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 
 # Create your models here.
@@ -14,14 +16,14 @@ class Language(models.Model):
 
 
 class Article(models.Model):
-    author = models.ForeignKey('User', on_delete=models.CASCADE)
+    author = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, related_name='+')
     title = models.CharField(max_length=200)
     text = models.TextField()
     date = models.DateTimeField(default=timezone.now)
     # language = models.ForeignKey('Language', on_delete=models.CASCADE, default='other')
     language = models.CharField(max_length=40, default='other')
     # tags = models.TextField(default='none')
-    tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag', blank=True)
 
     def publish(self):
         self.date = timezone.now()
@@ -38,10 +40,24 @@ class Tag(models.Model):
         return self.name
 
 
-class User(models.Model):
-    name = models.CharField(max_length=50)
-    languages = models.ManyToManyField(Language)
-    favourite_tags = models.ManyToManyField(Tag)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, blank=True)
+    languages = models.ManyToManyField(Language, blank=True, related_name='+')
+    native = models.ForeignKey(Language, blank=True, on_delete=models.SET_NULL, null=True, related_name='+')
+    favourite_tags = models.ManyToManyField(Tag, blank=True)
+    about = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name
+        return str(self.user)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
